@@ -17,9 +17,9 @@ int main(int argc, char *argv[]) {
   }
 
   char buffer[MAX_LEN];
-  int num, counter = 0;
+  int counter = 0, num;
   int part1 = 0, prev1 = 99999;
-  int part2 = 0, prev2 = 99999, history[4] = {}, historyCounter = 0;
+  int part2 = 0, history[4] = {}, historyCounter = 0;
   while(fgets(buffer, MAX_LEN, file)) {
     num = atoi(buffer);
     printf("%d\t", num);

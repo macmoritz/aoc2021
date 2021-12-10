@@ -33,39 +33,41 @@ void main(List<String> arguments) async {
     for (final brace in line.split('')) {
       if (brace == '(' || brace == '[' || brace == '{' || brace == '<') {
         currentOpen.add(brace);
-      } else if (currentOpen.last == braces[brace]) {
-        switch (brace) {
-          case ')':
-            currentOpen.remove('(');
-            break;
-          case ']':
-            currentOpen.remove('[');
-            break;
-          case '}':
-            currentOpen.remove('{');
-            break;
-          case '>':
-            currentOpen.remove('<');
-            break;
-        }
       } else {
-        print('found $brace');
-        switch (brace) {
-          case ')':
-            part1 += 3;
+        if (currentOpen.last == braces[brace]) {
+          switch (brace) {
+            case ')':
+              currentOpen.remove('(');
+              break;
+            case ']':
+              currentOpen.remove('[');
+              break;
+            case '}':
+              currentOpen.remove('{');
+              break;
+            case '>':
+              currentOpen.remove('<');
+              break;
+          }
+        } else {
+          print('found $brace');
+          switch (brace) {
+            case ')':
+              part1 += 3;
+              break;
+            case ']':
+              part1 += 57;
+              break;
+            case '}':
+              part1 += 1197;
+              break;
+            case '>':
+              part1 += 25137;
+              break;
+          }
+          if (brace == ')' || brace == ']' || brace == '}' || brace == '>') {
             break;
-          case ']':
-            part1 += 57;
-            break;
-          case '}':
-            part1 += 1197;
-            break;
-          case '>':
-            part1 += 25137;
-            break;
-        }
-        if (brace == ')' || brace == ']' || brace == '}' || brace == '>') {
-          break;
+          }
         }
       }
     }

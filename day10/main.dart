@@ -33,22 +33,20 @@ void main(List<String> arguments) async {
     for (final brace in line.split('')) {
       if (brace == '(' || brace == '[' || brace == '{' || brace == '<') {
         currentOpen.add(brace);
-      } else if (brace == ')' || brace == ']' || brace == '}' || brace == '>') {
-        if (currentOpen.last == braces[brace]) {
-          switch (brace) {
-            case ')':
-              currentOpen.remove('(');
-              break;
-            case ']':
-              currentOpen.remove('[');
-              break;
-            case '}':
-              currentOpen.remove('{');
-              break;
-            case '>':
-              currentOpen.remove('<');
-              break;
-          }
+      } else if (currentOpen.last == braces[brace]) {
+        switch (brace) {
+          case ')':
+            currentOpen.remove('(');
+            break;
+          case ']':
+            currentOpen.remove('[');
+            break;
+          case '}':
+            currentOpen.remove('{');
+            break;
+          case '>':
+            currentOpen.remove('<');
+            break;
         }
       } else {
         print('found $brace');
@@ -65,6 +63,9 @@ void main(List<String> arguments) async {
           case '>':
             part1 += 25137;
             break;
+        }
+        if (brace == ')' || brace == ']' || brace == '}' || brace == '>') {
+          break;
         }
       }
     }

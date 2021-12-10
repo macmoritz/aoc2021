@@ -14,30 +14,43 @@ Future<List<String>> getLines(filename) async {
   return lines;
 }
 
+Future<int> getOpenCount(List<String> line) async {
+  int count = 0;
+  for (final brace in line) {
+    if (brace == '(' || brace == '[' || brace == '{' || brace == '<') {
+      count += 1;
+    }
+  }
+  return count;
+}
+
 void main(List<String> arguments) async {
-  List<String> lines = [];
   String filename = 'input.txt';
   if (arguments.length == 1) {
     filename = arguments[0];
   }
 
+  List<String> lines = await getLines(filename);
+
   int part1 = 0;
-  int part2 = 0;
-
-  lines = await getLines(filename);
-  Map<String, String> braces = {')': '(', ']': '[', '}': '{', '>': '<'};
-
+  int part2 = 0, score;
+  Map<String, String> pairs = {')': '(', ']': '[', '}': '{', '>': '<'};
+  var points1 = {")": 3, "]": 57, "}": 1197, ">": 25137};
+  var points2 = {")": 1, "]": 2, "}": 3, ">": 4};
   List<String> currentOpen = [];
+  List<int> scores = [];
+  bool lineIsCorrupt = false;
+
   for (final line in lines) {
     currentOpen = [];
+    lineIsCorrupt = false;
     for (final brace in line.split('')) {
       if (brace == '(' || brace == '[' || brace == '{' || brace == '<') {
         currentOpen.add(brace);
       } else {
-        if (currentOpen.last == braces[brace]) {
+        if (pairs[brace] == currentOpen.last) {
           currentOpen.removeLast();
         } else {
-          print('found $brace');
           switch (brace) {
             case ')':
               part1 += 3;
@@ -53,13 +66,36 @@ void main(List<String> arguments) async {
               break;
           }
           if (brace == ')' || brace == ']' || brace == '}' || brace == '>') {
+            lineIsCorrupt = true;
             break;
           }
         }
       }
     }
+    if (!lineIsCorrupt) {
+      score = 0;
+      for (final brace in currentOpen.reversed.toList()) {
+        switch (brace) {
+          case '(':
+            score = (score * 5) + 1;
+            break;
+          case '[':
+            score = (score * 5) + 2;
+            break;
+          case '{':
+            score = (score * 5) + 3;
+            break;
+          case '<':
+            score = (score * 5) + 4;
+            break;
+        }
+      }
+      scores.add(score);
+    }
   }
 
+  scores.sort();
+  part2 = scores[(scores.length / 2).floor()];
   print('part 1: $part1');
   print('part 2: $part2');
 }

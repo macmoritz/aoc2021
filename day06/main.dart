@@ -31,16 +31,16 @@ void main(List<String> arguments) async {
   List<int> fishs1 = [...input];
   List<int> fishs2 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-  for (int day = 0; day < days; day++) {
-    for (int i = 0; i < fishs1.length; i++) {
-      if (fishs1[i] == 0) {
-        fishs1[i] = 6;
-        fishs1.add(9);
-      } else {
-        fishs1[i]--;
-      }
-    }
-  }
+  // for (int day = 0; day < days; day++) {
+  //   for (int i = 0; i < fishs1.length; i++) {
+  //     if (fishs1[i] == 0) {
+  //       fishs1[i] = 6;
+  //       fishs1.add(9);
+  //     } else {
+  //       fishs1[i]--;
+  //     }
+  //   }
+  // }
 
   for (final fish in input) {
     fishs2[fish] += 1;

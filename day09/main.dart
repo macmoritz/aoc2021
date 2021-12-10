@@ -57,8 +57,8 @@ void main(List<String> arguments) async {
     heights.add(line.split('').map(int.parse).toList());
   }
 
-  List<List<bool>> basinMap =
-      List.filled(heights.length, List.filled(heights[0].length, false));
+  List<List<bool>> basinMap = List.generate(
+      heights.length, (i) => List.generate(heights[0].length, (j) => false));
 
   List<List<int>> lowPoints = [];
   List<int> basinSizes = [];
@@ -71,25 +71,28 @@ void main(List<String> arguments) async {
         lowPoints.add([x, y]);
         part1 += 1 + point;
       }
-      if (point < 9) {
+      if (point != 9) {
         basinMap[x][y] = true;
       }
-      // print('x: $x $basinMap');
-      // print('\n');
       y++;
     }
     x++;
   }
-  print(basinMap);
+  print(basinMap[0]);
+  print(basinMap[1]);
+  print(basinMap[2]);
+  print(basinMap[3]);
+  print(basinMap[4]);
 
+  print('found ${lowPoints.length} lowpoints');
   for (final lowPoint in lowPoints) {
+    print('lowpoint: $lowPoint');
     var explore = Explore(lowPoint[0], lowPoint[1], basinMap);
-    while (explore.toExplore.length > 0) {
-      explore.exploreNext();
-    }
+    explore.explore();
     basinSizes.add(explore.basinSize);
   }
   basinSizes.sort((a, b) => a > b ? a : b);
+  print(basinSizes);
   part2 = basinSizes[0] * basinSizes[1] * basinSizes[2];
 
   print('part 1: $part1');

@@ -35,20 +35,7 @@ void main(List<String> arguments) async {
         currentOpen.add(brace);
       } else {
         if (currentOpen.last == braces[brace]) {
-          switch (brace) {
-            case ')':
-              currentOpen.remove('(');
-              break;
-            case ']':
-              currentOpen.remove('[');
-              break;
-            case '}':
-              currentOpen.remove('{');
-              break;
-            case '>':
-              currentOpen.remove('<');
-              break;
-          }
+          currentOpen.removeLast();
         } else {
           print('found $brace');
           switch (brace) {

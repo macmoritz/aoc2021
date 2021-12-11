@@ -64,7 +64,7 @@ List<List<int>> getNeighbours(int x, int y, visited, basinMap) {
       neighbours.add([x, y - 1]);
     }
   }
-  if (y + 1 < basinMap.length) {
+  if (y + 1 < basinMap[0].length) {
     if (basinMap[x][y + 1] && !containsAsString(visited, [x, y + 1])) {
       neighbours.add([x, y + 1]);
     }
@@ -116,26 +116,22 @@ void main(List<String> arguments) async {
   List<List<int>> visited = [];
   List<List<int>> neighbours = [];
   List<int> point = [];
-  print('found ${lowPoints.length} lowpoints');
   for (final lowPoint in lowPoints) {
-    print('lowpoint: $lowPoint');
     basinSize = 0;
     visited = [];
     neighbours = [lowPoint];
     while (neighbours.length > 0) {
-      print(neighbours);
       point = neighbours.removeAt(0);
       x = point[0];
       y = point[1];
       var next = getNeighbours(x, y, visited, basinMap);
-      neighbours += next;
-      neighbours += next;
+      neighbours.addAll(next);
+      visited.addAll(next);
       basinSize += next.length;
     }
     basinSizes.add(basinSize);
   }
-  basinSizes.sort((a, b) => a > b ? a : b);
-  print(basinSizes);
+  basinSizes.sort((a, b) => b.compareTo(a));
   part2 = basinSizes[0] * basinSizes[1] * basinSizes[2];
 
   print('part 1: $part1');

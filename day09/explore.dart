@@ -18,33 +18,17 @@ class Explore {
   }
 
   void explore() {
-    List<List<int>> toRemove = [];
-    List<List<int>> toAdd = [];
-
-    while (toExplore.length > 0) {
-      for (final field in toExplore) {
-        toRemove = [];
-        toAdd = [];
-        if (!containsAsString(explored, field)) {
-          print('exploring $field');
-          toAdd = getNeighbours(field[0], field[1]);
-          basinSize += 1;
-          toRemove.add(field);
-          explored.add(field);
-        }
+    List<List<int>> neighbours = [];
+    List<int> current = [];
+    while (toExplore.isNotEmpty) {
+      current = toExplore[0];
+      if (!containsAsString(explored, current)) {
+        neighbours = getNeighbours(current[0], current[1]);
+        explored += neighbours;
+        toExplore += neighbours;
+        basinSize += neighbours.length;
       }
-      toAdd.forEach((element) {
-        if (!containsAsString(explored, element)) {
-          toExplore.add(element);
-        }
-      });
-      toRemove.forEach((element) {
-        print('removing $element');
-        toExplore.remove(element);
-        if (!containsAsString(explored, element)) {
-          explored.add(element);
-        }
-      });
+      toExplore.remove(current);
     }
   }
 

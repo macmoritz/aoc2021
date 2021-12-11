@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
-import 'explore.dart';
-
 Future<List<String>> getLines(filename) async {
   List<String> lines = [];
   await new File(filename)
@@ -38,6 +36,41 @@ Future<bool> isLowest(x, y, heights) async {
     }
   }
   return true;
+}
+
+bool containsAsString(List list, element) {
+  for (final item in list) {
+    if (item.toString() == element.toString()) {
+      return true;
+    }
+  }
+  return false;
+}
+
+List<List<int>> getNeighbours(int x, int y, visited, basinMap) {
+  List<List<int>> neighbours = [];
+  if (x > 0) {
+    if (basinMap[x - 1][y] && !containsAsString(visited, [x - 1, y])) {
+      neighbours.add([x - 1, y]);
+    }
+  }
+  if (x + 1 < basinMap.length) {
+    if (basinMap[x + 1][y] && !containsAsString(visited, [x + 1, y])) {
+      neighbours.add([x + 1, y]);
+    }
+  }
+  if (y > 0) {
+    if (basinMap[x][y - 1] && !containsAsString(visited, [x, y - 1])) {
+      neighbours.add([x, y - 1]);
+    }
+  }
+  if (y + 1 < basinMap.length) {
+    if (basinMap[x][y + 1] && !containsAsString(visited, [x, y + 1])) {
+      neighbours.add([x, y + 1]);
+    }
+  }
+
+  return neighbours;
 }
 
 void main(List<String> arguments) async {
@@ -78,18 +111,28 @@ void main(List<String> arguments) async {
     }
     x++;
   }
-  print(basinMap[0]);
-  print(basinMap[1]);
-  print(basinMap[2]);
-  print(basinMap[3]);
-  print(basinMap[4]);
 
+  int basinSize = 0;
+  List<List<int>> visited = [];
+  List<List<int>> neighbours = [];
+  List<int> point = [];
   print('found ${lowPoints.length} lowpoints');
   for (final lowPoint in lowPoints) {
     print('lowpoint: $lowPoint');
-    var explore = Explore(lowPoint[0], lowPoint[1], basinMap);
-    explore.explore();
-    basinSizes.add(explore.basinSize);
+    basinSize = 0;
+    visited = [];
+    neighbours = [lowPoint];
+    while (neighbours.length > 0) {
+      print(neighbours);
+      point = neighbours.removeAt(0);
+      x = point[0];
+      y = point[1];
+      var next = getNeighbours(x, y, visited, basinMap);
+      neighbours += next;
+      neighbours += next;
+      basinSize += next.length;
+    }
+    basinSizes.add(basinSize);
   }
   basinSizes.sort((a, b) => a > b ? a : b);
   print(basinSizes);

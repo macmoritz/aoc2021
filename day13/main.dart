@@ -49,30 +49,42 @@ void main(List<String> arguments) async {
   List<List<String>> manual = List.generate(
       maxHeight + 1, (i) => List.generate(maxWidth + 1, (j) => '.'));
 
-  int count = 0;
   for (final coord in coords) {
-    manual[coord[1]][coord[0]] = count.toString();
-    count++;
+    manual[coord[1]][coord[0]] = '#';
   }
 
-  manual.forEach((line) {
-    print(line);
-  });
+  // manual.forEach((line) {
+  //   print(line);
+  // });
 
-  String fold = folds[0];
-  if (fold[0] == 'x') {
-    int foldindex = int.parse(fold.split('=')[1]);
-    for (final line in manual) {
-      for (int index = foldindex; index < line.length; index++) {
-        if (line[index] != '.') {
-          print('$index, ${index - foldindex}');
-          line[index - foldindex] = line[index];
+  for (final fold in folds) {
+    // String fold = folds[0];
+    int foldindex;
+    if (fold[0] == 'y') {
+      foldindex = int.parse(fold.split('=')[1]);
+
+      for (int i = 0; i < foldindex; i++) {
+        for (int j = 0; j < manual[i].length; j++) {
+          if (manual[i + foldindex + 1][j] == '#') {
+            manual[foldindex - 1 - i][j] = '#';
+          }
         }
       }
-      line.length = foldindex;
+      manual.length = foldindex;
+    }
+
+    if (fold[0] == 'x') {
+      foldindex = int.parse(fold.split('=')[1]);
+      for (final line in manual) {
+        for (int index = 0; index < foldindex; index++) {
+          if (line[foldindex + index + 1] == '#') {
+            line[foldindex - index - 1] = line[foldindex + index + 1];
+          }
+        }
+        line.length = foldindex;
+      }
     }
   }
-
   print('\n\n');
   manual.forEach((line) {
     line.forEach((element) {

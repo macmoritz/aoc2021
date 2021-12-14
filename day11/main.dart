@@ -39,6 +39,7 @@ void main(List<String> arguments) async {
   List<List<int>> octopuses = [];
   List<List<int>> setToZero = [];
   List<int> expanded = [];
+
   for (final line in lines) {
     octopuses.add(line.split('').map(int.parse).toList());
   }

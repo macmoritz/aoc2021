@@ -35,8 +35,6 @@ void main(List<String> arguments) async {
   int part1 = 0;
   int part2 = 0, score;
   Map<String, String> pairs = {')': '(', ']': '[', '}': '{', '>': '<'};
-  var points1 = {")": 3, "]": 57, "}": 1197, ">": 25137};
-  var points2 = {")": 1, "]": 2, "}": 3, ">": 4};
   List<String> currentOpen = [];
   List<int> scores = [];
   bool lineIsCorrupt = false;

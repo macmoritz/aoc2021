@@ -15,7 +15,6 @@ Future<List<String>> getLines(filename) async {
 }
 
 void main(List<String> arguments) async {
-  List<String> lines = [];
   String filename = 'input.txt';
   if (arguments.length == 1) {
     filename = arguments[0];
@@ -24,7 +23,7 @@ void main(List<String> arguments) async {
   int part1 = 0;
   int part2 = 0;
 
-  lines = await getLines(filename);
+  List<String> lines = await getLines(filename);
   print(lines);
 
   print('part 1: $part1');

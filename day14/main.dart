@@ -15,20 +15,48 @@ Future<List<String>> getLines(filename) async {
   return lines;
 }
 
+Map<String, int> process(polymer, rules, steps) {
+  Map<String, int> newPolymer = {};
+  for (int step = 0; step < steps; step++) {
+    for (final poly in polymer.keys) {
+      String? insert = rules[poly];
+      if (insert != null) {
+        newPolymer[poly.substring(0, 1) + insert] =
+            (newPolymer[poly.substring(0, 1) + insert] ?? 0) + polymer[poly]!
+                as int;
+        newPolymer[insert + poly.substring(1, 2)] =
+            (newPolymer[insert + poly.substring(1, 2)] ?? 0) + polymer[poly]!
+                as int;
+      } else {
+        newPolymer[poly] = 1;
+      }
+    }
+    polymer = newPolymer;
+    newPolymer = {};
+  }
+  return polymer;
+}
+
 void main(List<String> arguments) async {
   String filename = 'input.txt';
   if (arguments.length == 1) {
     filename = arguments[0];
   }
 
-  int part1 = 0;
-  int part2 = 0;
+  int part1 = 0, steps1 = 10;
+  int part2 = 0, steps2 = 40;
 
   List<String> lines = await getLines(filename);
-  String polymer = lines[0];
-  String insertions = '';
+  Map<String, int> polymer1 = {}, polymer2 = {};
   Map<String, String> rules = {};
-  Map<String, int> elements = {};
+
+  String startvalue = lines[0];
+  for (int i = 0; i < startvalue.length - 1; i++) {
+    polymer1[startvalue[i] + startvalue[i + 1]] =
+        (polymer1[startvalue[i] + startvalue[i + 1]] ?? 0) + 1;
+  }
+  polymer2 = {...polymer1};
+  print(polymer1);
 
   for (final line in lines) {
     if (line.contains('->')) {
@@ -36,27 +64,36 @@ void main(List<String> arguments) async {
     }
   }
 
-  for (int step = 0; step < 10; step++) {
-    for (int i = 0; i < polymer.length - 1; i++) {
-      if (rules.containsKey(polymer.substring(i, i + 2))) {
-        insertions += rules[polymer.substring(i, i + 2)]!;
-      }
-    }
+  polymer1 = process(polymer1, rules, steps1);
+  polymer2 = process(polymer2, rules, steps2);
 
-    for (int ii = 1, c = 0; c < insertions.length; ii += 2, c++) {
-      polymer =
-          polymer.substring(0, ii) + insertions[c] + polymer.substring(ii);
-    }
-    insertions = '';
+  Map<String, int> results1 = {}, results2 = {};
+
+  for (final poly in polymer1.keys) {
+    results1[poly.substring(0, 1)] =
+        (results1[poly.substring(0, 1)] ?? 0) + polymer1[poly]!;
+    results1[poly.substring(1, 2)] =
+        (results1[poly.substring(1, 2)] ?? 0) + polymer1[poly]!;
   }
 
-  for (final letter in polymer.split('')) {
-    if (!elements.containsKey(letter)) {
-      elements[letter] = letter.allMatches(polymer).length;
-    }
+  for (final poly in polymer2.keys) {
+    results2[poly.substring(0, 1)] =
+        (results2[poly.substring(0, 1)] ?? 0) + polymer2[poly]!;
+    results2[poly.substring(1, 2)] =
+        (results2[poly.substring(1, 2)] ?? 0) + polymer2[poly]!;
   }
 
-  part1 = elements.values.reduce(max) - elements.values.reduce(min);
+  for (final result in results1.keys) {
+    results1[result] = (results1[result]! / 2).ceil();
+  }
+  for (final result in results2.keys) {
+    results2[result] = (results2[result]! / 2).ceil();
+  }
+
+  print(polymer1);
+  print(results1);
+  part1 = results1.values.reduce(max) - results1.values.reduce(min);
+  part2 = results2.values.reduce(max) - results2.values.reduce(min);
 
   print('part 1: $part1');
   print('part 2: $part2');

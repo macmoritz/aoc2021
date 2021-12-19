@@ -34,6 +34,36 @@ List<List<int>> getNeighbours(height, width, List<int> coords) {
   return fieldNeighbours;
 }
 
+List<List<List<int>>> createPaths(List<List<int>> cave, List<List<int>> path) {
+  List<List<List<int>>> paths = [];
+
+  List<int> lastElement = path.removeLast();
+  // print(path);
+  // if (path.any((e) => listEquals(e, lastElement))) {
+  if (path.containsElement(lastElement)) {
+    // path.add(lastElement);
+    print('wait i was here ($lastElement) before: $path');
+    return [];
+  } else {
+    path.add(lastElement);
+    if (path.last[0] == cave.length - 1 && path.last[1] == cave[0].length - 1) {
+      return [path];
+    }
+  }
+
+  List<List<int>> neighbours = [];
+  neighbours =
+      getNeighbours(cave.length, cave[0].length, [path.last[0], path.last[1]])
+          .where((neighbour) => !path.contains(neighbour))
+          .toList();
+
+  neighbours.forEach((element) {
+    paths.addAll(createPaths(cave, [...path, element]));
+  });
+
+  return paths;
+}
+
 void main(List<String> arguments) async {
   String filename = 'input.txt';
   if (arguments.length == 1) {
@@ -49,14 +79,12 @@ void main(List<String> arguments) async {
     cave.add(line.split('').map(int.parse).toList());
   }
 
-  List<List<List<int>>> paths = [];
+  List<List<List<int>>> paths = createPaths(cave, [
+    [0, 0]
+  ]);
+  print(paths);
 
   int riskLevel = 0;
-  List<List<int>> path = [];
-
-  while () {
-
-  }
 
   // for (final path in paths) {
   //   path.forEach((e) {
@@ -70,4 +98,26 @@ void main(List<String> arguments) async {
 
   print('part 1: $part1');
   print('part 2: $part2');
+}
+
+extension on List {
+  bool containsElement(element) {
+    for (final e in this) {
+      if (e == element) {
+        print('${e} is ${element}');
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+bool listEquals<T>(List<T>? a, List<T>? b) {
+  if (a == null) return b == null;
+  if (b == null || a.length != b.length) return false;
+  if (identical(a, b)) return true;
+  for (int index = 0; index < a.length; index += 1) {
+    if (a[index] != b[index]) return false;
+  }
+  return true;
 }

@@ -12,7 +12,7 @@ Future<List<String>> getLines(filename) async {
   return lines;
 }
 
-Future<bool> checkCard(card, balls) async {
+bool checkCard(card, balls) {
   for (int j = 0; j < 5; j++) {
     if (balls.contains(card[j][0]) &&
         balls.contains(card[j][1]) &&
@@ -32,7 +32,6 @@ Future<bool> checkCard(card, balls) async {
   return false;
 }
 
-
 Future<int> calcScore(card, balls) async {
   int score = 0;
   for (final row in card) {
@@ -47,7 +46,6 @@ Future<int> calcScore(card, balls) async {
 
 void main(List<String> arguments) async {
   List<String> lines = [];
-  List<List<List<int>>> cards = [];
   String filename = 'input.txt';
   if (arguments.length == 1) {
     filename = arguments[0];
@@ -55,8 +53,8 @@ void main(List<String> arguments) async {
 
   int part1 = 0;
   int part2 = 0;
-  List<int> scores = [];
-  List<int> usedBalls = [];
+  List<List<List<int>>> cards = [];
+  List<int> usedBalls = [], scores = [];
 
   lines = await getLines(filename);
   List<int> balls = lines[0].split(',').map(int.parse).toList();
@@ -78,20 +76,15 @@ void main(List<String> arguments) async {
     }
   }
 
-  List<List<List<int>>> toRemove = [];
   for (final ball in balls) {
     usedBalls.add(ball);
-    for (final r in toRemove) {
-      cards.remove(r);
-    }
-    toRemove = [];
     for (final card in cards) {
-      if (await checkCard(card, usedBalls)) {
+      if (checkCard(card, usedBalls)) {
         int score = (await calcScore(card, usedBalls)) * ball;
         scores.add(score);
-        toRemove.add(card);
       }
     }
+    cards.removeWhere((card) => checkCard(card, usedBalls));
   }
 
   part1 = scores[0];

@@ -5,11 +5,7 @@ import 'dart:math';
 
 Future<List<String>> getLines(filename) async {
   List<String> lines = [];
-  await new File(filename)
-      .openRead()
-      .map(utf8.decode)
-      .transform(new LineSplitter())
-      .forEach((line) {
+  await new File(filename).openRead().map(utf8.decode).transform(new LineSplitter()).forEach((line) {
     lines.add(line);
   });
   return lines;
@@ -27,10 +23,8 @@ void main(List<String> arguments) async {
 
   lines = await getLines(filename);
   List<int> crabs = lines[0].split(',').map(int.parse).toList();
-  List<int> constantFuel =
-      List.filled(crabs.reduce(max) - crabs.reduce(min) + 1, 0);
-  List<int> incrementalFuel =
-      List.filled(crabs.reduce(max) - crabs.reduce(min) + 1, 0);
+  List<int> constantFuel = List.filled(crabs.reduce(max) - crabs.reduce(min) + 1, 0);
+  List<int> incrementalFuel = List.filled(crabs.reduce(max) - crabs.reduce(min) + 1, 0);
 
   for (int i = crabs.reduce(min); i <= crabs.reduce(max); i++) {
     constantFuel[i] = 0;
@@ -44,6 +38,6 @@ void main(List<String> arguments) async {
   part1 = constantFuel.reduce(min);
   part2 = incrementalFuel.reduce(min);
 
-  print('part 1: $part1');
+  print('part 1: $part1 ${constantFuel.indexOf(part1)}');
   print('part 2: $part2');
 }

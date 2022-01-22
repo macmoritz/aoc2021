@@ -17,11 +17,11 @@ int main(int argc, char *argv[]) {
   }
 
   char buffer[MAX_LEN];
-  int unsigned long num;
-  int unsigned long part1 = 0;
-  int unsigned long part2 = 0;
-  int unsigned long fishs1[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-  int unsigned long fishs2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  long long num;
+  long long part1 = 0;
+  long long part2 = 0;
+  long long fishs1[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  long long fishs2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
   while(fgets(buffer, MAX_LEN, file)) {
     char *ch;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   }
   fclose(file);
 
-  int unsigned long temp;
+  long long temp;
   for (int day = 0; day < 80; day++) {
     temp = fishs1[0];
     fishs1[0] = fishs1[1];
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     fishs1[8] = temp;
   }
 
-  for (int day = 0; day < 256; day++) {
+  for (int day = 0; day < 100000000; day++) {
     temp = fishs2[0];
     fishs2[0] = fishs2[1];
     fishs2[1] = fishs2[2];
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
     part1 += fishs1[i];
     part2 += fishs2[i];
   }
-  printf("Part 1: %lu\n", part1);
-  printf("Part 2: %lu\n", part2);
+  printf("Part 1: %lld\n", part1);
+  printf("Part 2: %lld\n", part2);
 
   return 0;
 }

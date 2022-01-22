@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func simulate(fishs [9]int, days int) [9]int {
-	var temp int;
+func simulate(fishs [9]uint64, days int) [9]uint64 {
+	var temp uint64;
 	for day := 0; day < days; day++ {
 		temp = fishs[0];
 		fishs[0] = fishs[1];
@@ -36,9 +36,9 @@ func main() {
 	}
 	var init = strings.Trim(strings.ReplaceAll(string(data), ",", ""), "\n")
 
-	var fishs1 = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
-	var fishs2 = [9]int{0, 0, 0, 0, 0, 0, 0, 0, 0}
-	var part1, part2 int = 0, 0
+	var fishs1 = [9]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	var fishs2 = [9]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0}
+	var part1, part2 uint64 = 0, 0
 
 	for _, fishs := range init {
 		fishs1[int(fishs) - int('0')] += 1;
@@ -46,16 +46,13 @@ func main() {
 	}
 
 	fishs1 = simulate(fishs1, 80)
-	fishs2 = simulate(fishs2, 256)
+	fishs2 = simulate(fishs2, 100000000)
 
-	for _, fishs := range fishs1 {
-		part1 += fishs
+	for i := 0; i < 9; i++ {
+		part1 += fishs1[i]
+		part2 += fishs2[i]
 	}
 
-	for _, fishs := range fishs2 {
-		part2 += fishs
-	}
-
-	fmt.Println("part 1: ", part1)
-	fmt.Println("part 2: ", part2)
+	fmt.Println("part 1:", part1)
+	fmt.Println("part 2:", part2)
 }

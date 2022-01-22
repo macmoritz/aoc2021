@@ -46,7 +46,8 @@ func main() {
 	}
 
 	fishs1 = simulate(fishs1, 80)
-	fishs2 = simulate(fishs2, 100000000)
+	fishs2 = simulate(fishs2, 256)
+	// fishs2 = simulate(fishs2, 9999999999)
 
 	for i := 0; i < 9; i++ {
 		part1 += fishs1[i]

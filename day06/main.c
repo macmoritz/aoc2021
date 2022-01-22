@@ -50,7 +50,9 @@ int main(int argc, char *argv[]) {
     fishs1[8] = temp;
   }
 
-  for (int day = 0; day < 100000000; day++) {
+  // for (int day = 0; day < 9999999999; day++) {
+  // for (int day = 0; day < 100000000; day++) {
+  for (int day = 0; day < 256; day++) {
     temp = fishs2[0];
     fishs2[0] = fishs2[1];
     fishs2[1] = fishs2[2];

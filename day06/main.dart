@@ -29,11 +29,9 @@ Future<List<int>> simulate(List<int> fishs, int days) async {
 
 void main(List<String> arguments) async {
   List<String> lines = [];
-  int days = 80;
   String filename = 'input.txt';
   if (arguments.length == 1) {
     filename = arguments[0];
-    days = 18;
   }
 
   int part1 = 0;

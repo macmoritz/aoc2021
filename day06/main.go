@@ -22,22 +22,20 @@ func main() {
 		filename = os.Args[1]
 	}
 
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		panic(err)
-	}
-	var init = strings.Trim(strings.ReplaceAll(string(data), ",", ""), "\n")
+	input, err := os.ReadFile(filename)
+	if err != nil { panic(err) }
+
+	var initial = strings.Trim(strings.ReplaceAll(string(input), ",", ""), "\n")
 
 	var fishs1, fishs2 = [9]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0}, [9]uint64{0, 0, 0, 0, 0, 0, 0, 0, 0}
 	var part1, part2 uint64 = 0, 0
 
-	for _, fishs := range init {
+	for _, fishs := range initial {
 		fishs1[int(fishs) - int('0')] += 1;
 		fishs2[int(fishs) - int('0')] += 1;
 	}
 
 	fishs1, fishs2 = simulate(fishs1, 80), simulate(fishs2, 256)
-	// fishs2 = simulate(fishs2, 9999999999)
 
 	for i := 0; i < 9; i++ {
 		part1 += fishs1[i]

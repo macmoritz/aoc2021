@@ -17,11 +17,8 @@ int main(int argc, char *argv[]) {
   }
 
   char buffer[MAX_LEN];
-  long long num;
-  long long part1 = 0;
-  long long part2 = 0;
-  long long fishs1[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-  long long fishs2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+  long long part1 = 0, part2 = 0, num;
+  long long fishs1[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0}, fishs2[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
   while(fgets(buffer, MAX_LEN, file)) {
     char *ch;
@@ -39,30 +36,12 @@ int main(int argc, char *argv[]) {
   long long temp;
   for (int day = 0; day < 80; day++) {
     temp = fishs1[0];
-    fishs1[0] = fishs1[1];
-    fishs1[1] = fishs1[2];
-    fishs1[2] = fishs1[3];
-    fishs1[3] = fishs1[4];
-    fishs1[4] = fishs1[5];
-    fishs1[5] = fishs1[6];
-    fishs1[6] = fishs1[7] + temp;
-    fishs1[7] = fishs1[8];
-    fishs1[8] = temp;
+    fishs1[0] = fishs1[1], fishs1[1] = fishs1[2], fishs1[2] = fishs1[3], fishs1[3] = fishs1[4], fishs1[4] = fishs1[5], fishs1[5] = fishs1[6], fishs1[6] = fishs1[7] + temp, fishs1[7] = fishs1[8], fishs1[8] = temp;
   }
 
-  // for (int day = 0; day < 9999999999; day++) {
-  // for (int day = 0; day < 100000000; day++) {
   for (int day = 0; day < 256; day++) {
     temp = fishs2[0];
-    fishs2[0] = fishs2[1];
-    fishs2[1] = fishs2[2];
-    fishs2[2] = fishs2[3];
-    fishs2[3] = fishs2[4];
-    fishs2[4] = fishs2[5];
-    fishs2[5] = fishs2[6];
-    fishs2[6] = fishs2[7] + temp;
-    fishs2[7] = fishs2[8];
-    fishs2[8] = temp;
+    fishs2[0] = fishs2[1], fishs2[1] = fishs2[2], fishs2[2] = fishs2[3], fishs2[3] = fishs2[4], fishs2[4] = fishs2[5], fishs2[5] = fishs2[6], fishs2[6] = fishs2[7] + temp, fishs2[7] = fishs2[8], fishs2[8] = temp;
   }
 
   for (int i = 0; i < 9; i++) {

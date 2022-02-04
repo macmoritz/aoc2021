@@ -39,7 +39,8 @@ int main(int argc, char *argv[]) {
     fishs1[0] = fishs1[1], fishs1[1] = fishs1[2], fishs1[2] = fishs1[3], fishs1[3] = fishs1[4], fishs1[4] = fishs1[5], fishs1[5] = fishs1[6], fishs1[6] = fishs1[7] + temp, fishs1[7] = fishs1[8], fishs1[8] = temp;
   }
 
-  for (int day = 0; day < 256; day++) {
+  // for (int day = 0; day < 256; day++) {
+  for (int day = 0; day < 1000000000; day++) {
     temp = fishs2[0];
     fishs2[0] = fishs2[1], fishs2[1] = fishs2[2], fishs2[2] = fishs2[3], fishs2[3] = fishs2[4], fishs2[4] = fishs2[5], fishs2[5] = fishs2[6], fishs2[6] = fishs2[7] + temp, fishs2[7] = fishs2[8], fishs2[8] = temp;
   }

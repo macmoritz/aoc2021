@@ -39,5 +39,5 @@ void main(List<String> arguments) async {
   part2 = incrementalFuel.reduce(min);
 
   print('part 1: $part1 ${constantFuel.indexOf(part1)}');
-  print('part 2: $part2');
+  print('part 2: $part2 ${incrementalFuel.indexOf(part2)}');
 }

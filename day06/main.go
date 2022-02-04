@@ -35,7 +35,7 @@ func main() {
 		fishs2[int(fishs) - int('0')] += 1;
 	}
 
-	fishs1, fishs2 = simulate(fishs1, 80), simulate(fishs2, 256)
+	fishs1, fishs2 = simulate(fishs1, 80), simulate(fishs2, 1000000000)
 
 	for i := 0; i < 9; i++ {
 		part1 += fishs1[i]

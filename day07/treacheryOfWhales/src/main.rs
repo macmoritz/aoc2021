@@ -3,7 +3,7 @@ use std::fs;
 
 fn exponential_fuel(steps: i32) -> i32 {
     let mut fuel: i32 = 0;
-    for i in 1..steps {
+    for i in 1..steps + 1 {
         fuel += i;
     }
     fuel
@@ -17,24 +17,30 @@ fn main() {
     }
 
     let input = fs::read_to_string(filename).expect("Something went wrong reading the file");
-    let crabs: Vec<i32> = input.trim().split(',').map(|s| s.parse().unwrap()).collect();
+    let mut crabs: Vec<i32> = input
+        .trim()
+        .split(',')
+        .map(|s| s.parse().unwrap())
+        .collect();
+    crabs.sort();
 
-    let position1: i32 = (crabs.iter().sum::<i32>() as f32 / (crabs.len() * 2) as f32).round() as i32;
-    let position2: i32 = (crabs.iter().sum::<i32>() as f32 / crabs.len() as f32).round() as i32;
-    let mut fuel1: Vec<i32> = Vec::new();
-    let mut fuel2: Vec<i32> = Vec::new();
+    let position1: i32 = crabs[(crabs.len() as f32 / 2 as f32).floor() as usize];
+    let mut position2: i32 = (crabs.iter().sum::<i32>() as f32 / crabs.len() as f32).floor() as i32;
+    let mut fuel1: i32 = 0;
+    let mut fuel2: i32 = 0;
+    let mut fuel21: i32 = 0;
 
-    let mut j: usize = 0;
-    for i in (position1 as f32 * 0.5) as i32..(position1 as f32 * 1.5) as i32 {
-        fuel1.push(0);
-        fuel2.push(0);
-        for crab in &crabs {
-            fuel1[j] += (i - crab).abs();
-            fuel2[j] += exponential_fuel((i - crab).abs());
-        }
-        j += 1;
+    for crab in crabs {
+        fuel1 += (position1 - crab).abs();
+        fuel2 += exponential_fuel((position2 - crab).abs());
+        fuel21 += exponential_fuel((position2 + 1 - crab).abs());
     }
 
-    println!("part 1: {}", fuel1.iter().min().unwrap());
-    println!("part 2: {}", fuel2.iter().min().unwrap());
+    if fuel2 > fuel21 {
+        fuel2 = fuel21;
+        position2 += 1;
+    }
+
+    println!("part 1: {}, aligning to {}", fuel1, position1);
+    println!("part 2: {}, aligning to {}", fuel2, position2);
 }

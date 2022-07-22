@@ -33,20 +33,12 @@ void main(List<String> arguments) async {
       .map(int.parse)
       .toList();
   Target target = new Target(coords[0], coords[1], coords[3], coords[2]);
-
-  // Shot shot = new Shot(7, 2, target);
-  // Shot shot = new Shot(0, -1000, target);
-  // if (shot.hit) {
-  //   yPos.add(shot.highesty);
-  //   print('HITTT!!!');
-  // } else {
-  //   print('no hit :(');
-  // }
+  Shot shot;
 
   int range = 1000;
   for (int x = 0; x < range; x++) {
     for (int y = -range; y < range; y++) {
-      Shot shot = new Shot(x, y, target);
+      shot = new Shot(x, y, target);
       if (shot.hit) {
         if (shot.highesty > part1) {
           part1 = shot.highesty;
